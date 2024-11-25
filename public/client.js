@@ -1,16 +1,24 @@
-const socket = io(); // Connect to the WebSocket server
+// Connect to the server via socket.io
+const socket = io();
 
-// Display the initially assigned hat
-socket.on('hatAssigned', (hat) => {
-  document.getElementById('hatDisplay').innerText = `Your hat number: ${hat}`;
+// Emit event when user joins the game (pass their name)
+function joinGame(name) {
+  socket.emit('joinGame', name);
+}
+
+// Listen for the assigned hat number from the server
+socket.on('assignHat', (hatNumber) => {
+  // Call a function in game.js to update the UI with the hat number
+  updateHatNumber(hatNumber);
 });
 
-// Emit the event when the button is clicked
-document.getElementById('requestHat').addEventListener('click', () => {
-  socket.emit('requestNewHat'); // Emit 'requestNewHat' to the server
+// Listen for the shuffled hat result from the server
+socket.on('shuffleResult', (participants) => {
+  // Call a function in game.js to update the UI with the shuffle result
+  updateShuffleResults(participants);
 });
 
-// Update the hat number when the server sends a new hat
-socket.on('newHat', (newHat) => {
-  document.getElementById('hatDisplay').innerText = `New hat number: ${newHat}`;
-});
+// Function to shuffle hats
+function shuffleHats() {
+  socket.emit('shuffleHats');
+}
