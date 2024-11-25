@@ -2,44 +2,40 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 
+// Initialize express and http server
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// Store participants and their hats
+// Store participant information
 let participants = {};
-let hostSocketId = null; // Variable to store the host's socket ID
+let hostSocketId = null;
 
-// Serve static files (like HTML, client.js, game.js) from the 'public' folder
-app.use(express.static('public'));
+// Serve the HTML, CSS, and JS files
+app.use(express.static('public')); // Assuming your client files (index.html, game.js) are in the 'public' folder
 
-// When a user connects to the server
+// Handle a new connection
 io.on('connection', (socket) => {
   console.log('A user connected: ' + socket.id);
 
-  // Handle a user joining the game
+  // Handle new participant joining
   socket.on('joinGame', (name) => {
-    const hatNumber = Math.floor(Math.random() * 100) + 1; // Randomly assign a hat number
+    // Assign a random hat number to the participant
+    const hatNumber = Math.floor(Math.random() * 100) + 1; // Random hat number between 1 and 100
     participants[socket.id] = { name, hatNumber };
 
-    // If this is the first user, assign them as the host
+    // If no host has been assigned yet, assign this player as the host
     if (!hostSocketId) {
-      hostSocketId = socket.id; // First user is the host
-      io.emit('hostAssigned', { hostName: name });
+      hostSocketId = socket.id;
+      io.to(socket.id).emit('hostAssigned', { hostName: name });
+      io.emit('showHostActions');
     }
 
-    console.log(`${name} joined with hat number ${hatNumber}`);
-
-    // Send the assigned hat number to the client
-    socket.emit('assignHat', hatNumber);
-
-    // If this is the first user to join, let the host know they can shuffle hats
-    if (Object.keys(participants).length === 1) {
-      io.emit('showHostActions'); // Notify everyone that the host can shuffle hats
-    }
+    // Send the hat number to the participant
+    io.to(socket.id).emit('assignHat', hatNumber);
   });
 
-  // Handle the hat shuffle triggered by the host
+  // Handle hat shuffle
   socket.on('shuffleHats', () => {
     // Only allow the host to shuffle the hats
     if (socket.id !== hostSocketId) {
@@ -47,39 +43,43 @@ io.on('connection', (socket) => {
       return;
     }
 
+    // Shuffle the hats: Create an array of all participants' hat numbers and shuffle it
     const hatNumbers = Object.values(participants).map((p) => p.hatNumber);
     const shuffledHats = [...hatNumbers].sort(() => Math.random() - 0.5);
 
-    // Reassign hats to participants
+    // Reassign the shuffled hats to participants
     let index = 0;
     for (const id in participants) {
       participants[id].newHat = shuffledHats[index++];
     }
 
-    // Emit the result to all clients (shuffle complete)
+    // Emit the shuffle results to all participants
     io.emit('shuffleResult', participants);
   });
 
-  // Handle user disconnect
+  // Handle disconnection of a participant
   socket.on('disconnect', () => {
     console.log('A user disconnected: ' + socket.id);
-    delete participants[socket.id];
-
     // If the host disconnects, assign a new host
     if (socket.id === hostSocketId) {
-      // Find a new host (first player to remain in the game)
-      const remainingSockets = Object.keys(participants);
-      if (remainingSockets.length > 0) {
-        hostSocketId = remainingSockets[0]; // Assign first remaining player as host
-        io.emit('hostAssigned', { hostName: participants[hostSocketId].name });
-      } else {
-        hostSocketId = null; // Reset host if no players are left
+      // Find the next available host
+      for (const id in participants) {
+        if (id !== socket.id) {
+          hostSocketId = id;
+          io.to(id).emit('hostAssigned', { hostName: participants[id].name });
+          io.emit('showHostActions');
+          break;
+        }
       }
     }
+
+    // Remove the participant from the list of participants
+    delete participants[socket.id];
   });
 });
 
-// Start the server on port 3000
-server.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000');
+// Start the server
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

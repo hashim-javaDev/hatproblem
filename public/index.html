@@ -3,39 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hat Problem Game</title>
+    <title>Hat Shuffle Game</title>
+    <style>
+        #hatStatus {
+            display: none;
+        }
+        #resultsDiv {
+            display: none;
+        }
+        #shuffleButton {
+            display: none; /* Initially hidden */
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Hat Problem Game</h1>
+    <h1>Welcome to the Hat Shuffle Game!</h1>
 
+    <!-- Host Information -->
+    <div id="hostInfo">
+        <h3 id="hostName">Host: </h3>
+    </div>
+
+    <!-- Join Game Form -->
     <div id="joinForm">
-        <label for="nameInput">Enter your name:</label>
-        <input type="text" id="nameInput" placeholder="Your name">
+        <label for="nameInput">Enter your name: </label>
+        <input type="text" id="nameInput" placeholder="Your Name">
         <button id="joinButton">Join Game</button>
     </div>
 
-    <div id="hostInfo">
-      <h3 id="hostName">Host: </h3>
-  </div>  
-
-    <div id="hatStatus" style="display: none;">
-        <p>Your hat number: <span id="hatNumber"></span></p>
+    <!-- Hat Number -->
+    <div id="hatStatus">
+        <p>Your Hat Number: <span id="hatNumber"></span></p>
     </div>
 
-    <div id="results" style="display: none;">
-        <h2>Results After the Party:</h2>
+    <!-- Shuffle Results -->
+    <div id="resultsDiv">
+        <h3>Hat Shuffle Results:</h3>
         <ul id="resultsList"></ul>
     </div>
 
-    <div id="hostActions" style="display: none;">
-        <button id="shuffleButton">Shuffle Hats</button>
-    </div>
+    <!-- Shuffle Button (Only visible to Host) -->
+    <button id="shuffleButton">Shuffle Hats</button>
 
-    <!-- Link to the socket.io client -->
     <script src="/socket.io/socket.io.js"></script>
-    <!-- Link to the client.js (handles socket communication) -->
-    <script src="client.js"></script>
-    <!-- Link to the game.js (handles game logic/UI updates) -->
     <script src="game.js"></script>
 </body>
 </html>
