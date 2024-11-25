@@ -7,6 +7,7 @@ const shuffleButton = document.getElementById('shuffleButton');
 const joinForm = document.getElementById('joinForm');
 const nameInput = document.getElementById('nameInput');
 const joinButton = document.getElementById('joinButton');
+const hostNameSpan = document.getElementById('hostName'); // Display the host's name
 
 // Show the user's hat number
 function updateHatNumber(hatNumber) {
@@ -19,7 +20,6 @@ function updateShuffleResults(participants) {
   resultsDiv.style.display = 'block';
   resultsList.innerHTML = '';
 
-  // Display participants' names, old and new hats
   for (const id in participants) {
     resultsList.innerHTML += `
             <li>${participants[id].name}: 
@@ -27,16 +27,11 @@ function updateShuffleResults(participants) {
   }
 }
 
-// When a participant clicks join
+// Handle the join button click
 joinButton.addEventListener('click', () => {
   const name = nameInput.value;
   if (name) {
     joinGame(name);
-    joinForm.style.display = 'none'; // Hide the name input form
+    joinForm.style.display = 'none';
   }
-});
-
-// Handle the shuffle button click (triggering the host action)
-shuffleButton.addEventListener('click', () => {
-  shuffleHats();
 });

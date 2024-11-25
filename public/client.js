@@ -1,24 +1,31 @@
-// Connect to the server via socket.io
 const socket = io();
 
-// Emit event when user joins the game (pass their name)
 function joinGame(name) {
   socket.emit('joinGame', name);
 }
 
-// Listen for the assigned hat number from the server
 socket.on('assignHat', (hatNumber) => {
-  // Call a function in game.js to update the UI with the hat number
   updateHatNumber(hatNumber);
 });
 
-// Listen for the shuffled hat result from the server
 socket.on('shuffleResult', (participants) => {
-  // Call a function in game.js to update the UI with the shuffle result
   updateShuffleResults(participants);
 });
 
-// Function to shuffle hats
-function shuffleHats() {
+socket.on('showHostActions', () => {
+  // Show the shuffle button only if the user is the host
+  document.getElementById('shuffleButton').style.display = 'block';
+});
+
+socket.on('hostAssigned', (data) => {
+  // Display the host's name on the screen
+  document.getElementById('hostName').textContent = `Host: ${data.hostName}`;
+});
+
+socket.on('error', (message) => {
+  alert(message); // Show error message to non-hosts trying to shuffle
+});
+
+shuffleButton.addEventListener('click', () => {
   socket.emit('shuffleHats');
-}
+});
