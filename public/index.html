@@ -4,75 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hat Problem Game</title>
-  <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-    #participants, #results { margin-top: 20px; }
-    .highlight { color: green; font-weight: bold; }
-  </style>
+  <link rel="stylesheet" href="style.css"> <!-- Link to the CSS file -->
 </head>
 <body>
   <h1>Hat Problem Game</h1>
-  <p>Welcome! You’ll be assigned a random hat number.</p>
-
-  <div id="yourHat">
-    <h3>Your Hat Number: <span id="hatNumber">...</span></h3>
-  </div>
-
-  <div id="participants">
-    <h3>Participants:</h3>
-    <ul id="participantsList"></ul>
-  </div>
-
-  <div id="results" style="display:none;">
-    <h3>After the Party:</h3>
-    <ul id="resultsList"></ul>
-  </div>
-
-  <button id="shuffleButton" style="display:none;" onclick="shuffleHats()">Shuffle Hats</button>
+  <div id="hatDisplay">Waiting for your hat number...</div>
+  <button id="requestHat">Request a new hat</button>
 
   <script src="/socket.io/socket.io.js"></script>
-  <script>
-    const socket = io();
-
-    // Display the participant's hat number
-    socket.on('participantsUpdate', (participants) => {
-      const myId = socket.id;
-      const myData = participants[myId];
-      if (myData) {
-        document.getElementById('hatNumber').textContent = myData.hatNumber;
-      }
-
-      // Update the participant list
-      const participantsList = document.getElementById('participantsList');
-      participantsList.innerHTML = '';
-      for (const id in participants) {
-        participantsList.innerHTML += `<li>User ${id.slice(-4)}: Hat ${participants[id].hatNumber}</li>`;
-      }
-
-      // Show shuffle button for the first participant
-      if (Object.keys(participants).length > 1 && id === myId) {
-        document.getElementById('shuffleButton').style.display = 'block';
-      }
-    });
-
-    // Display the results after shuffling
-    socket.on('shuffleResult', (participants) => {
-      const resultsDiv = document.getElementById('results');
-      const resultsList = document.getElementById('resultsList');
-
-      resultsDiv.style.display = 'block';
-      resultsList.innerHTML = '';
-      for (const id in participants) {
-        resultsList.innerHTML += `
-          <li>User ${id.slice(-4)}: 
-            Old Hat ${participants[id].hatNumber} -> New Hat ${participants[id].newHat}</li>`;
-      }
-    });
-
-    // Host shuffles the hats
-    function shuffleHats() {
-      socket.emit('shuffleHats');
-    }
-  </script>
+  <script src="client.js"></script>
 </body>
 </html>
