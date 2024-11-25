@@ -1,16 +1,16 @@
-const socket = io();
+const socket = io(); // Connect to the WebSocket server
 
-// Display assigned hat
+// Display the initially assigned hat
 socket.on('hatAssigned', (hat) => {
   document.getElementById('hatDisplay').innerText = `Your hat number: ${hat}`;
 });
 
-// Handle new hat requests
+// Emit the event when the button is clicked
 document.getElementById('requestHat').addEventListener('click', () => {
-  socket.emit('requestNewHat');
+  socket.emit('requestNewHat'); // Emit 'requestNewHat' to the server
 });
 
-// Display new hat
+// Update the hat number when the server sends a new hat
 socket.on('newHat', (newHat) => {
   document.getElementById('hatDisplay').innerText = `New hat number: ${newHat}`;
 });
