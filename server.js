@@ -29,7 +29,7 @@ io.on('connection', (socket) => {
       hostSocketId = socket.id;
       io.to(socket.id).emit('hostAssigned', { hostName: name }); // Emit to host
       io.emit('hostAssigned', { hostName: name }); // Broadcast to all clients
-      io.emit('showHostActions');
+      io.emit('showHostActions'); // Show the shuffle button for the host
     }
 
     // Send the hat number to the participant
