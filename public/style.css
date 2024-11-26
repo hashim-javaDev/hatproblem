@@ -1,71 +1,93 @@
-/* General page styling */
+/* Basic styling */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #0077ff, #00ff88);
-    color: #ffffff;
-  }
-  
-  /* Header styling */
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  }
-  
-  /* Hat display area */
-  #hatDisplay {
-    font-size: 1.5rem;
-    margin: 20px 0;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-  }
-  
-  /* Button styling */
-  button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #0077ff;
-    background: #ffffff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-  }
-  
-  button:hover {
-    background: #00ff88;
-    transform: scale(1.05);
-  }
-  
-  button:active {
-    transform: scale(0.95);
-  }
-  
-  /* Responsive design */
-  @media (max-width: 600px) {
-    h1 {
-      font-size: 2rem;
-    }
-  
-    #hatDisplay {
-      font-size: 1.2rem;
-    }
-  
-    button {
-      padding: 8px 15px;
-      font-size: 0.9rem;
-    }
-  }
-  
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f7f7f7;
+  padding: 20px;
+  color: #333;
+}
+
+h1 {
+  color: #4CAF50;
+}
+
+h3 {
+  color: #555;
+}
+
+#hostInfo {
+  margin: 20px 0;
+}
+
+#joinForm {
+  margin-bottom: 20px;
+}
+
+#joinForm input {
+  padding: 8px;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+#joinForm button {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#joinForm button:hover {
+  background-color: #45a049;
+}
+
+#hatStatus {
+  display: none;
+  margin-top: 20px;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#resultsDiv {
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#resultsList {
+  list-style-type: none;
+  padding: 0;
+}
+
+#resultsList li {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+#shuffleButton {
+  display: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#shuffleButton:hover {
+  background-color: #e64a19;
+}
+
+/* Error message styles */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}

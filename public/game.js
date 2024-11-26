@@ -1,6 +1,6 @@
 const socket = io();
 
-// Listen for DOMContentLoaded
+// Wait for DOM to be loaded
 document.addEventListener('DOMContentLoaded', () => {
   const joinButton = document.getElementById('joinButton');
   const nameInput = document.getElementById('nameInput');
@@ -18,12 +18,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Listen for assigned hat number from the server
   socket.on('assignHat', (hatNumber) => {
-    alert(`Your assigned hat number is: ${hatNumber}`);
+    const hatStatus = document.getElementById('hatStatus');
+    const hatNumberSpan = document.getElementById('hatNumber');
+    hatStatus.style.display = 'block';
+    hatNumberSpan.textContent = hatNumber;
   });
 
-  // Listen for host actions
+  // Listen for host actions (show shuffle button)
+  socket.on('showHostActions', () => {
+    const shuffleButton = document.getElementById('shuffleButton');
+    shuffleButton.style.display = 'block';
+  });
+
+  // Listen for host assignment
   socket.on('hostAssigned', (data) => {
-    alert(`${data.hostName} is the host!`);
+    const hostNameSpan = document.getElementById('hostName');
+    hostNameSpan.textContent = `Host: ${data.hostName}`;
   });
 
   // Listen for shuffle result
@@ -34,5 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
       resultMessage += `${participant.name} now has hat ${participant.newHat}\n`;
     }
     alert(resultMessage);
+  });
+
+  // Handle errors
+  socket.on('error', (message) => {
+    alert(message);
   });
 });

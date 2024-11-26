@@ -4,17 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hat Shuffle Game</title>
-    <style>
-        #hatStatus {
-            display: none;
-        }
-        #resultsDiv {
-            display: none;
-        }
-        #shuffleButton {
-            display: none; /* Initially hidden */
-        }
-    </style>
+    
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <h1>Welcome to the Hat Shuffle Game!</h1>
@@ -45,6 +37,7 @@
     <!-- Shuffle Button (Only visible to Host) -->
     <button id="shuffleButton">Shuffle Hats</button>
 
+    <!-- Socket.IO -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="game.js"></script>
 </body>
