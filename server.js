@@ -27,9 +27,8 @@ io.on('connection', (socket) => {
     // If no host has been assigned yet, assign this player as the host
     if (!hostSocketId) {
       hostSocketId = socket.id;
-      io.to(socket.id).emit('hostAssigned', { hostName: name }); // Emit to host
-      io.emit('hostAssigned', { hostName: name }); // Broadcast to all clients
-      io.emit('showHostActions'); // Show the shuffle button for the host
+      io.emit('hostAssigned', { hostName: name }); // Emit to all clients (including host)
+      io.emit('showHostActions');
     }
 
     // Send the hat number to the participant
