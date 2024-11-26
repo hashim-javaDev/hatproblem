@@ -57,10 +57,19 @@ function updateHatNumber(hatNumber) {
 function updateShuffleResults(participants) {
   resultsDiv.style.display = 'block';
   resultsList.innerHTML = '';
+
   for (const id in participants) {
+    const participant = participants[id];
+    const isSameHat = participant.hatNumber === participant.newHat;
+
+    // Add a class to highlight if the participant has the same hat number
+    const highlightClass = isSameHat ? 'highlight' : '';
+
     resultsList.innerHTML += `
-            <li>${participants[id].name}: 
-                Old Hat ${participants[id].hatNumber} -> New Hat ${participants[id].newHat}</li>`;
+            <li class="${highlightClass}">
+              ${participant.name}: 
+              Old Hat ${participant.hatNumber} -> New Hat ${participant.newHat}
+            </li>`;
   }
 }
 
