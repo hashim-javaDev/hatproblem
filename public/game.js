@@ -28,6 +28,7 @@ socket.on('shuffleResult', (participants) => {
 
 // Show shuffle button only for the host
 socket.on('showHostActions', () => {
+  // Show shuffle button only if the user is the host
   shuffleButton.style.display = 'block';
 });
 
@@ -57,9 +58,16 @@ function updateShuffleResults(participants) {
   resultsDiv.style.display = 'block';
   resultsList.innerHTML = '';
   for (const id in participants) {
+    const participant = participants[id];
+    const isWinner = participant.hatNumber === participant.newHat;
+
+    // Add class to highlight the winner
+    const winnerClass = isWinner ? 'winner' : '';
+
     resultsList.innerHTML += `
-            <li>${participants[id].name}: 
-                Old Hat ${participants[id].hatNumber} -> New Hat ${participants[id].newHat}</li>`;
+      <li class="${winnerClass}">
+        ${participant.name}: Old Hat ${participant.hatNumber} -> New Hat ${participant.newHat}
+      </li>`;
   }
 }
 

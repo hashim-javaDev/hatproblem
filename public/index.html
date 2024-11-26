@@ -4,38 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hat Shuffle Game</title>
-    <link rel="stylesheet" href="style.css"> <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to the Hat Shuffle Game!</h1>
+    <h1>Welcome to the Hat Shuffle Game!</h1>
 
-        <!-- Host Information -->
-        <div id="hostInfo">
-            <h3 id="hostName">Host: </h3>
-        </div>
-
-        <!-- Join Game Form -->
-        <div id="joinForm">
-            <label for="nameInput">Enter your name: </label>
-            <input type="text" id="nameInput" placeholder="Your Name">
-            <button id="joinButton">Join Game</button>
-        </div>
-
-        <!-- Hat Number -->
-        <div id="hatStatus">
-            <p>Your Hat Number: <span id="hatNumber"></span></p>
-        </div>
-
-        <!-- Shuffle Results -->
-        <div id="resultsDiv">
-            <h3>Hat Shuffle Results:</h3>
-            <ul id="resultsList"></ul>
-        </div>
-
-        <!-- Shuffle Button (Only visible to Host) -->
-        <button id="shuffleButton">Shuffle Hats</button>
+    <!-- Host Information -->
+    <div id="hostInfo">
+        <h3 id="hostName">Host: </h3>
     </div>
+
+    <!-- Join Game Form -->
+    <div id="joinForm">
+        <label for="nameInput">Enter your name: </label>
+        <input type="text" id="nameInput" placeholder="Your Name">
+        <button id="joinButton">Join Game</button>
+    </div>
+
+    <!-- Hat Number -->
+    <div id="hatStatus">
+        <p>Your Hat Number: <span id="hatNumber"></span></p>
+    </div>
+
+    <!-- Shuffle Results -->
+    <div id="resultsDiv">
+        <h3>Hat Shuffle Results:</h3>
+        <ul id="resultsList"></ul>
+    </div>
+
+    <!-- Shuffle Button (Only visible to Host) -->
+    <button id="shuffleButton">Shuffle Hats</button>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="game.js"></script>

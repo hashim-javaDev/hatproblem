@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
     // If no host has been assigned yet, assign this player as the host
     if (!hostSocketId) {
       hostSocketId = socket.id;
-      io.emit('hostAssigned', { hostName: name }); // Emit to all clients (including host)
+      io.to(socket.id).emit('hostAssigned', { hostName: name });
       io.emit('showHostActions');
     }
 
