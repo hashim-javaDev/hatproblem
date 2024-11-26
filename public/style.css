@@ -1,27 +1,92 @@
-/* Highlight participants with the same hat number */
-.highlight {
-  background-color: yellow;
-  font-weight: bold;
-}
-
-/* Other styles */
-body {
-  font-family: Arial, sans-serif;
+/* Basic reset for padding and margins */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  font-family: Arial, sans-serif;
   background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
 }
 
+/* Center container */
+.container {
+  text-align: center;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px; /* Optional: Set a max width */
+}
+
+/* Header */
 h1 {
-  text-align: center;
-  margin-top: 20px;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
 }
 
+/* Host Info */
+#hostInfo {
+  margin-bottom: 20px;
+}
+
+#hostName {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* Join Form */
 #joinForm {
-  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Input field */
+#nameInput {
+  padding: 8px;
+  font-size: 1rem;
+  width: 80%;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Button */
+button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Hat Number */
+#hatStatus {
   margin-top: 20px;
 }
 
+#hatNumber {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* Results */
 #resultsDiv {
   margin-top: 20px;
 }
@@ -32,31 +97,11 @@ h1 {
 }
 
 #resultsList li {
-  padding: 8px;
-  margin: 4px 0;
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  margin: 5px 0;
+  font-size: 1.1rem;
 }
 
-button {
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-#hatStatus {
-  margin-top: 20px;
-}
-
+/* Shuffle Button */
 #shuffleButton {
   margin-top: 20px;
-  display: none;
 }
