@@ -24,19 +24,12 @@ io.on('connection', (socket) => {
     const hatNumber = Math.floor(Math.random() * 100) + 1; // Random hat number between 1 and 100
     participants[socket.id] = { name, hatNumber };
 
-    // Log current participants
-    console.log(`Participant joined: ${name} with ID ${socket.id}`);
-
     // If no host has been assigned yet, assign this player as the host
     if (!hostSocketId) {
       hostSocketId = socket.id;
-      console.log(`Host assigned: ${name} (ID: ${socket.id})`);
-      io.emit('hostAssigned', { hostName: name }); // Notify all clients who the host is
-      io.to(socket.id).emit('showHostActions'); // Show host controls
-    } else {
-      console.log(
-        `Host is already assigned: ${participants[hostSocketId]?.name}`
-      );
+      io.to(socket.id).emit('hostAssigned', { hostName: name }); // Emit to host
+      io.emit('hostAssigned', { hostName: name }); // Broadcast to all clients
+      io.emit('showHostActions');
     }
 
     // Send the hat number to the participant

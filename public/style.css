@@ -1,93 +1,57 @@
-/* Basic styling */
 body {
   font-family: Arial, sans-serif;
   text-align: center;
-  background-color: #f7f7f7;
+  margin: 0;
   padding: 20px;
-  color: #333;
 }
 
 h1 {
-  color: #4CAF50;
-}
-
-h3 {
-  color: #555;
+  color: #333;
 }
 
 #hostInfo {
-  margin: 20px 0;
+  margin: 20px;
+}
+
+#hostName {
+  font-weight: bold;
 }
 
 #joinForm {
-  margin-bottom: 20px;
+  margin: 20px;
 }
 
-#joinForm input {
-  padding: 8px;
-  font-size: 14px;
-  margin-right: 10px;
+#hatStatus, #resultsDiv {
+  margin: 20px;
 }
 
-#joinForm button {
-  padding: 8px 16px;
+#shuffleButton {
+  margin-top: 20px;
+  padding: 10px 20px;
   background-color: #4CAF50;
   color: white;
   border: none;
   cursor: pointer;
-  font-size: 14px;
-}
-
-#joinForm button:hover {
-  background-color: #45a049;
-}
-
-#hatStatus {
-  display: none;
-  margin-top: 20px;
-  background-color: #f0f0f0;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-#resultsDiv {
-  display: none;
-  margin-top: 20px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-#resultsList {
-  list-style-type: none;
-  padding: 0;
-}
-
-#resultsList li {
-  margin: 10px 0;
-  font-size: 16px;
-}
-
-#shuffleButton {
-  display: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #ff5722;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
 }
 
 #shuffleButton:hover {
-  background-color: #e64a19;
+  background-color: #45a049;
 }
 
-/* Error message styles */
-.error-message {
-  color: red;
-  font-size: 14px;
-  margin-top: 10px;
+#joinButton {
+  padding: 10px 20px;
+  background-color: #008CBA;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#joinButton:hover {
+  background-color: #007bb5;
+}
+
+input[type="text"] {
+  padding: 10px;
+  width: 200px;
+  margin-right: 10px;
 }

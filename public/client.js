@@ -28,7 +28,6 @@ socket.on('shuffleResult', (participants) => {
 
 // Show shuffle button only for the host
 socket.on('showHostActions', () => {
-  // Show shuffle button only if the user is the host
   shuffleButton.style.display = 'block';
 });
 
