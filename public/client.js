@@ -34,7 +34,18 @@ socket.on('showHostActions', () => {
 
 // Display the host's name for all clients
 socket.on('hostAssigned', (data) => {
-  hostNameSpan.textContent = `Host: ${data.hostName}`;
+  hostNameSpan.textContent = `${data.hostName}`;
+});
+
+// Listen for assigned host name from the server
+socket.on('displayHostName', (data) => {
+  // Assuming you have an element with id 'hostName' to display the host's name
+  const hostNameSpan = document.getElementById('hostName');
+  if (hostNameSpan) {
+    hostNameSpan.textContent = `${data.hostName}`;
+  } else {
+    console.log('Host name element not found.');
+  }
 });
 
 // Display error message if non-host tries to shuffle
@@ -63,7 +74,7 @@ function updateShuffleResults(participants) {
     const isSameHat = participant.hatNumber === participant.newHat;
 
     // Add a class to highlight if the participant has the same hat number
-    const highlightClass = isSameHat ? 'highlight' : '';
+    const highlightClass = isSameHat ? 'winner' : '';
 
     resultsList.innerHTML += `
             <li class="${highlightClass}">

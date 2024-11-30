@@ -1,107 +1,161 @@
-/* Basic reset for padding and margins */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Body Styling */
+/* Global Styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4; /* Light neutral background */
+  color: #333; /* Dark text for contrast */
   text-align: center;
 }
 
-/* Center container */
-.container {
-  text-align: center;
-  padding: 20px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 600px; /* Optional: Set a max width */
-}
-
-/* Header */
 h1 {
+  color: #FF5722; /* Bright, inviting color for the title */
+  margin-top: 20px;
   font-size: 2rem;
-  color: #333;
-  margin-bottom: 20px;
 }
 
-/* Host Info */
+h3 {
+  margin: 10px 0;
+  color: #555; /* Slightly muted headings */
+}
+
+/* Host Information */
 #hostInfo {
-  margin-bottom: 20px;
-}
-
-#hostName {
+  margin: 20px 0;
   font-size: 1.2rem;
-  color: #555;
 }
 
-/* Join Form */
+/* Join Game Form */
 #joinForm {
-  margin-bottom: 20px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Input field */
-#nameInput {
-  padding: 8px;
+#joinForm label {
   font-size: 1rem;
-  width: 80%;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  margin-bottom: 5px;
 }
 
-/* Button */
-button {
+#nameInput {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 250px;
+  margin-bottom: 10px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#joinButton {
+  background-color: #4CAF50; /* Green for the join button */
+  color: white;
   padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  margin-top: 10px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-button:hover {
-  background-color: #0056b3;
+#joinButton:hover {
+  background-color: #45a049; /* Darker green on hover */
+  transform: translateY(-2px); /* Subtle lift */
 }
 
-/* Hat Number */
+#joinButton:active {
+  transform: translateY(1px); /* Pressed effect */
+}
+
+/* Hat Status */
 #hatStatus {
-  margin-top: 20px;
+  margin: 20px auto;
+  font-size: 1.2rem;
+  color: #444;
 }
 
 #hatNumber {
   font-weight: bold;
-  font-size: 1.2rem;
+  color: #FF5722;
 }
 
-/* Results */
+/* Shuffle Results */
 #resultsDiv {
-  margin-top: 20px;
+  margin: 30px auto;
+  max-width: 600px;
+  text-align: left;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #resultsList {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 #resultsList li {
+  font-size: 1rem;
   margin: 5px 0;
-  font-size: 1.1rem;
+  padding: 8px 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* Shuffle Button */
 #shuffleButton {
-  margin-top: 20px;
+  background-color: #FFC107; /* Amber primary color */
+  color: #212121; /* Dark text for contrast */
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  transition: all 0.3s ease;
+  display: block;
+  margin: 20px auto;
 }
+
+/* Hover effect for Shuffle Button */
+#shuffleButton:hover {
+  background-color: #FFB300; /* Slightly darker amber for hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+  transform: translateY(-2px); /* Subtle lift effect */
+}
+
+/* Active effect for Shuffle Button */
+#shuffleButton:active {
+  background-color: #FF8F00; /* Darker amber for active state */
+  transform: translateY(0); /* Reset lift effect */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Subtle pressed look */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #joinForm, #resultsDiv {
+    width: 90%;
+  }
+
+  #nameInput {
+    width: 100%;
+  }
+}
+
+/* Highlight the winner with bold text, green background, and larger font size */
+.winner {
+  background-color: #D4EDDA; /* Light green background */
+  color: #155724; /* Dark green text */
+  font-weight: bold;
+  font-size: 1.2rem; /* Slightly larger font */
+  border: 2px solid #C3E6CB; /* Green border for emphasis */
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px 0;
+}
+

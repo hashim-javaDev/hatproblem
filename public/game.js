@@ -21,20 +21,26 @@ socket.on('assignHat', (hatNumber) => {
   updateHatNumber(hatNumber);
 });
 
-// Handle shuffle result
+// Handle shuffle result for the host
 socket.on('shuffleResult', (participants) => {
-  updateShuffleResults(participants);
+  updateShuffleResults(participants); // Only visible to the host
 });
 
 // Show shuffle button only for the host
 socket.on('showHostActions', () => {
-  // Show shuffle button only if the user is the host
-  shuffleButton.style.display = 'block';
+  shuffleButton.style.display = 'block'; // Only host sees the shuffle button
 });
 
-// Display the host's name
-socket.on('hostAssigned', (data) => {
-  hostNameSpan.textContent = `Host: ${data.hostName}`;
+// Display the host's name for all participants
+socket.on('displayHostName', (data) => {
+  hostNameSpan.textContent = `${data.hostName}`;
+});
+
+// Show the new hat number for participants (old and new hat)
+socket.on('showNewHat', (participant) => {
+  hatStatus.style.display = 'block';
+  hatNumberSpan.textContent = `Old Hat: ${participant.hatNumber} -> New Hat: ${participant.newHat}`;
+  joinForm.style.display = 'none'; // Hide the join form once the game starts
 });
 
 // Display error message if non-host tries to shuffle
@@ -50,13 +56,14 @@ shuffleButton.addEventListener('click', () => {
 // Update the hat number in the UI
 function updateHatNumber(hatNumber) {
   hatStatus.style.display = 'block';
-  hatNumberSpan.textContent = hatNumber;
+  hatNumberSpan.textContent = `${hatNumber}`;
 }
 
-// Update the shuffle results
+// Update the shuffle results (only for the host)
 function updateShuffleResults(participants) {
   resultsDiv.style.display = 'block';
   resultsList.innerHTML = '';
+  console.log('Fuck off');
   for (const id in participants) {
     const participant = participants[id];
     const isWinner = participant.hatNumber === participant.newHat;
@@ -65,9 +72,7 @@ function updateShuffleResults(participants) {
     const winnerClass = isWinner ? 'winner' : '';
 
     resultsList.innerHTML += `
-      <li class="${winnerClass}">
-        ${participant.name}: Old Hat ${participant.hatNumber} -> New Hat ${participant.newHat}
-      </li>`;
+      <li class="${winnerClass}">${participants[id].name}: Old Hat ${participants[id].hatNumber} -> New Hat ${participants[id].newHat}</li>`;
   }
 }
 

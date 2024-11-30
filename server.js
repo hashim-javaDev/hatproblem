@@ -17,7 +17,6 @@ app.use(express.static('public')); // Assuming your client files (index.html, ga
 // Handle a new connection
 io.on('connection', (socket) => {
   console.log('A user connected: ' + socket.id);
-
   // Handle new participant joining
   socket.on('joinGame', (name) => {
     // Assign a random hat number to the participant
@@ -27,8 +26,13 @@ io.on('connection', (socket) => {
     // If no host has been assigned yet, assign this player as the host
     if (!hostSocketId) {
       hostSocketId = socket.id;
-      io.to(socket.id).emit('hostAssigned', { hostName: name });
-      io.emit('showHostActions');
+      io.to(socket.id).emit('hostAssigned', { hostName: name }); // Send host info to the host
+      io.emit('showHostActions'); // Show shuffle button to the host
+      if (hostSocketId != socket.id) {
+        io.emit('displayHostName', {
+          hostName: participants[hostSocketId].name,
+        }); // Broadcast host info to all clients
+      }
     }
 
     // Send the hat number to the participant
@@ -43,9 +47,38 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // Shuffle the hats: Create an array of all participants' hat numbers and shuffle it
+    // Create an array of all participants' hat numbers
     const hatNumbers = Object.values(participants).map((p) => p.hatNumber);
-    const shuffledHats = [...hatNumbers].sort(() => Math.random() - 0.5);
+
+    // Function to shuffle an array using Fisher-Yates algorithm
+    const shuffleArray = (array) => {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+      }
+      return array;
+    };
+
+    // Shuffle the hat numbers
+    let shuffledHats = shuffleArray([...hatNumbers]);
+
+    // Ensure only one person gets their own hat
+    let allowedMatch = false; // Track if the allowed match has occurred
+    for (let i = 0; i < hatNumbers.length; i++) {
+      if (hatNumbers[i] === shuffledHats[i]) {
+        if (!allowedMatch) {
+          // Allow the first match to remain
+          allowedMatch = true;
+        } else {
+          // If another match occurs, swap with a random index
+          let swapIndex = (i + 1) % hatNumbers.length;
+          [shuffledHats[i], shuffledHats[swapIndex]] = [
+            shuffledHats[swapIndex],
+            shuffledHats[i],
+          ];
+        }
+      }
+    }
 
     // Reassign the shuffled hats to participants
     let index = 0;
@@ -53,33 +86,42 @@ io.on('connection', (socket) => {
       participants[id].newHat = shuffledHats[index++];
     }
 
-    // Emit the shuffle results to all participants
-    io.emit('shuffleResult', participants);
+    // Emit the shuffle results to the host only
+    io.to(hostSocketId).emit('shuffleResult', participants);
+
+    // Emit the old and new hat numbers to all participants except the host
+    for (const id in participants) {
+      if (id !== hostSocketId) {
+        io.to(id).emit('showNewHat', participants[id]);
+      }
+    }
   });
 
   // Handle disconnection of a participant
   socket.on('disconnect', () => {
     console.log('A user disconnected: ' + socket.id);
+    // Remove the participant from the list of participants
+    delete participants[socket.id];
+
     // If the host disconnects, assign a new host
     if (socket.id === hostSocketId) {
+      hostSocketId = null;
       // Find the next available host
       for (const id in participants) {
         if (id !== socket.id) {
           hostSocketId = id;
           io.to(id).emit('hostAssigned', { hostName: participants[id].name });
+          io.emit('displayHostName', { hostName: participants[id].name }); // Update host name for all participants
           io.emit('showHostActions');
           break;
         }
       }
     }
-
-    // Remove the participant from the list of participants
-    delete participants[socket.id];
   });
 });
 
 // Start the server
 const PORT = process.env.PORT || 3000;
-server.listen(3000, () => {
-  console.log(`Server is running on port 3000`);
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
