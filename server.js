@@ -9,6 +9,7 @@ const io = socketIo(server);
 
 // Store participant information
 let participants = {};
+let participantCount = 0; // Initialize participant count
 let hostSocketId = null;
 
 // Serve the HTML, CSS, and JS files
@@ -17,16 +18,24 @@ app.use(express.static('public')); // Assuming your client files (index.html, ga
 // Handle a new connection
 io.on('connection', (socket) => {
   console.log('A user connected: ' + socket.id);
+  io.emit('participantCountUpdated', { count: participantCount });
+
+  if (hostSocketId) {
+    io.emit('hostAssigned', { hostName: participants[hostSocketId].name }); // Send host info to all
+  }
+
   // Handle new participant joining
   socket.on('joinGame', (name) => {
     // Assign a random hat number to the participant
     const hatNumber = Math.floor(Math.random() * 100) + 1; // Random hat number between 1 and 100
     participants[socket.id] = { name, hatNumber };
+    participantCount++;
+    io.emit('participantCountUpdated', { count: participantCount });
 
     // If no host has been assigned yet, assign this player as the host
     if (!hostSocketId) {
       hostSocketId = socket.id;
-      io.to(socket.id).emit('hostAssigned', { hostName: name }); // Send host info to the host
+      io.emit('hostAssigned', { hostName: name }); // Send host info to the host
       io.emit('showHostActions'); // Show shuffle button to the host
       if (hostSocketId != socket.id) {
         io.emit('displayHostName', {
@@ -34,7 +43,6 @@ io.on('connection', (socket) => {
         }); // Broadcast host info to all clients
       }
     }
-
     // Send the hat number to the participant
     io.to(socket.id).emit('assignHat', hatNumber);
   });
@@ -102,6 +110,7 @@ io.on('connection', (socket) => {
     console.log('A user disconnected: ' + socket.id);
     // Remove the participant from the list of participants
     delete participants[socket.id];
+    participantCount--;
 
     // If the host disconnects, assign a new host
     if (socket.id === hostSocketId) {
@@ -117,6 +126,8 @@ io.on('connection', (socket) => {
         }
       }
     }
+
+    io.emit('participantCountUpdated', { count: participantCount });
   });
 });
 

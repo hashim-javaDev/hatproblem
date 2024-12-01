@@ -16,6 +16,27 @@ function joinGame(name) {
   socket.emit('joinGame', name);
 }
 
+// Listen for the 'participantCountUpdated' event from the server
+socket.on('participantCountUpdated', (data) => {
+  console.log('Participant count updated:', data.count); // Debug log
+  const countSpan = document.getElementById('participant-count');
+  if (countSpan) {
+    countSpan.textContent = `:${data.count}`; // Update participant count
+  } else {
+    console.error('Participant count span not found!');
+  }
+});
+
+// Display the host's name for all clients
+socket.on('hostAssigned', (data) => {
+  hostNameSpan.textContent = `${data.hostName}`;
+});
+
+// Display the host's name for all participants
+socket.on('displayHostName', (data) => {
+  hostNameSpan.textContent = `${data.hostName}`;
+});
+
 // Handle hat number assignment
 socket.on('assignHat', (hatNumber) => {
   updateHatNumber(hatNumber);
@@ -29,11 +50,6 @@ socket.on('shuffleResult', (participants) => {
 // Show shuffle button only for the host
 socket.on('showHostActions', () => {
   shuffleButton.style.display = 'block'; // Only host sees the shuffle button
-});
-
-// Display the host's name for all participants
-socket.on('displayHostName', (data) => {
-  hostNameSpan.textContent = `${data.hostName}`;
 });
 
 // Show the new hat number for participants (old and new hat)
